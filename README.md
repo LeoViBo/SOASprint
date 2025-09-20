@@ -23,36 +23,7 @@ O projeto é estruturado em camadas para garantir a separação de responsabilid
 * **Model/Entity:** Representação das entidades do banco de dados.
 * **DTO (Data Transfer Object):** Objetos utilizados para transferir dados entre as camadas, garantindo a segurança e o encapsulamento.
 
-graph TD
-    subgraph Cliente
-        A[Usuário]
-    end
-
-    subgraph Aplicação - SOASprint
-        B(API Gateway/Controller)
-        C{Camada de Serviço}
-        D[Camada de Repositório]
-    end
-
-    subgraph Persistência
-        E[Banco de Dados Oracle]
-    end
-
-    A -- Requisição HTTP --> B
-    B -- Chamada ao Serviço --> C
-    C -- Acesso aos Dados --> D
-    D -- Query SQL --> E
-
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#b3e5fc,stroke:#333,stroke-width:2px
-    style C fill:#c8e6c9,stroke:#333,stroke-width:2px
-    style D fill:#ffecb3,stroke:#333,stroke-width:2px
-    style E fill:#e1bee7,stroke:#333,stroke-width:2px
-
-    linkStyle 0 stroke:#000,stroke-width:2px;
-    linkStyle 1 stroke:#000,stroke-width:2px;
-    linkStyle 2 stroke:#000,stroke-width:2px;
-    linkStyle 3 stroke:#000,stroke-width:2px;
+![Diagrama de entidades](Diagrama.png)
 
 ---
 
