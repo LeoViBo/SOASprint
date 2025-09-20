@@ -13,7 +13,8 @@ public class CarteiraDTOs {
             @NotBlank String nome,
             @NotNull @DecimalMin(value = "0.0", inclusive = true) BigDecimal valorTotal,
             @NotBlank String estrategia,
-            @NotNull List<String> ativos
+            @NotNull List<String> ativos,
+            @NotNull Long perfilId
     ) {}
 
     public record CarteiraResponseDTO(

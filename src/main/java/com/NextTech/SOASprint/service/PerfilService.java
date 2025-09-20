@@ -1,6 +1,7 @@
 package com.NextTech.SOASprint.service;
 
 import com.NextTech.SOASprint.domain.model.Perfil;
+import com.NextTech.SOASprint.domain.model.vo.EmailVO;
 import com.NextTech.SOASprint.dto.PerfilDTOs.PerfilCreateDTO;
 import com.NextTech.SOASprint.dto.PerfilDTOs.PerfilResponseDTO;
 import com.NextTech.SOASprint.dto.PerfilDTOs.PerfilUpdateDTO;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +23,18 @@ public class PerfilService {
 
     @Transactional
     public Long criar(PerfilCreateDTO dto) {
+        // Valida se o e-mail já existe
+        if (perfilRepo.findByEmailValue(dto.email()).isPresent()) {
+            throw new IllegalArgumentException("E-mail já cadastrado.");
+        }
+
         Perfil perfil = Perfil.builder()
                 .nome(dto.nome())
-                .descricao(dto.descricao())
+                .email(new EmailVO(dto.email()))
+                .objetivoFinanceiro(dto.objetivoFinanceiro())
+                .toleranciaRisco(dto.toleranciaRisco())
+                .valorParaInvesimento(dto.valorParaInvestimento().doubleValue())
+                .horizonteDeTempo(dto.horizonteDeTempo())
                 .build();
 
         return perfilRepo.save(perfil).getId();
@@ -35,7 +46,12 @@ public class PerfilService {
                 .map(p -> new PerfilResponseDTO(
                         p.getId(),
                         p.getNome(),
-                        p.getDescricao()
+                        p.getEmail().getValue(),
+                        p.getObjetivoFinanceiro(),
+                        p.getToleranciaRisco(),
+                        java.math.BigDecimal.valueOf(p.getValorParaInvesimento()),
+                        p.getHorizonteDeTempo(),
+                        p.getCarteiras().stream().map(c -> c.getId()).collect(Collectors.toList())
                 ));
     }
 
@@ -46,7 +62,12 @@ public class PerfilService {
         return new PerfilResponseDTO(
                 p.getId(),
                 p.getNome(),
-                p.getDescricao()
+                p.getEmail().getValue(),
+                p.getObjetivoFinanceiro(),
+                p.getToleranciaRisco(),
+                java.math.BigDecimal.valueOf(p.getValorParaInvesimento()),
+                p.getHorizonteDeTempo(),
+                p.getCarteiras().stream().map(c -> c.getId()).collect(Collectors.toList())
         );
     }
 
@@ -56,7 +77,11 @@ public class PerfilService {
                 .orElseThrow(() -> new NoSuchElementException("Perfil não encontrado"));
 
         p.setNome(dto.nome());
-        p.setDescricao(dto.descricao());
+        p.setEmail(new EmailVO(dto.email()));
+        p.setObjetivoFinanceiro(dto.objetivoFinanceiro());
+        p.setToleranciaRisco(dto.toleranciaRisco());
+        p.setValorParaInvesimento(dto.valorParaInvestimento().doubleValue());
+        p.setHorizonteDeTempo(dto.horizonteDeTempo());
 
         perfilRepo.save(p);
     }

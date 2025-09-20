@@ -1,5 +1,6 @@
 package com.NextTech.SOASprint.domain.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Carteira {
     private String nome;
 
     @Column(nullable = false)
-    private double valorTotal;
+    private BigDecimal valorTotal;
 
     // "Conservadora", "Moderada", "Arrojada".
     @Column(nullable = false, length = 50)

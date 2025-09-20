@@ -4,18 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <!-- Modelo base do Maven -->
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Projeto herda do Spring Boot -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
+        <version>3.3.0</version> <relativePath/> </parent>
 
-    <!-- Informações do seu projeto -->
     <groupId>com.NextTech</groupId>
     <artifactId>SOASprint</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -23,37 +18,30 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <!-- Define a versão do Java usada -->
         <java.version>17</java.version>
     </properties>
 
     <dependencies>
-        <!-- Validações com Jakarta Validation (Bean Validation) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- Spring Data JPA (para persistência com Hibernate) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- Spring Web (para criar APIs REST) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Swagger/OpenAPI 3 via Springdoc -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.6.0</version>
-        </dependency>
+            <version>2.5.0</version> </dependency>
 
-        <!-- Flyway (migrações de banco de dados) -->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
@@ -63,21 +51,18 @@
             <artifactId>flyway-database-oracle</artifactId>
         </dependency>
 
-        <!-- Driver do Oracle (runtime: só precisa em execução, não em build) -->
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc11</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Lombok (gera getters, setters, builders, etc.) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
         
-        <!-- Dependências de teste -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -87,7 +72,6 @@
 
     <build>
         <plugins>
-            <!-- Plugin para compilar código Java com suporte ao Lombok -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -96,18 +80,17 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
 
-            <!-- Plugin do Spring Boot (gera o jar executável) -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <!-- Exclui Lombok do empacotamento final -->
                         <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>

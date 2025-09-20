@@ -30,7 +30,7 @@ public class CarteiraService {
 
         Carteira carteira = Carteira.builder()
                 .nome(dto.nome())
-                .valorTotal(dto.valorTotal())
+                .valorTotal(dto.valorTotal()) // Now correctly handles BigDecimal
                 .estrategia(dto.estrategia())
                 .ativos(dto.ativos())
                 .usuario(perfil)
