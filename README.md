@@ -5,6 +5,10 @@ O **SOASprint** é uma aplicação desenvolvida com foco em **Arquitetura Orient
 
 ---
 
+Por Eduardo Araujo (RM99758), Gabriela Trevisan (RM99500), Leonardo Bonini (RM551716) e Rafael Franck (RM550875)
+
+---
+
 ### Tecnologias Utilizadas
 * **Linguagem:** Java
 * **Framework:** Spring Boot
