@@ -147,29 +147,3 @@ Use uma ferramenta como **Postman** ou **Insomnia** para testar os endpoints da 
       "balance": 200.75
     }
     ```
-
-
-Arquivo/Local,Alterações Necessárias
-# pom.xml (Raiz do Projeto) |	Adicionar as dependências do Spring Security e JWT (Geralmente spring-boot-starter-security e jjwt).
-
-# src/main/resources/application.properties ou application.yml | Adicionar configurações de segurança, como: tempo de expiração do token JWT, chave secreta (jwt.secret), e desativação da segurança básica do Spring Boot.
-
-# com.soasprint.project.security.SecurityConfigurations.java | (NOVO ARQUIVO) Configurar a cadeia de filtros de segurança (FilterChain). Deve: 1. Desabilitar o CSRF. 2. Definir a política de sessão como STATELESS. 3. Configurar o PasswordEncoder como BCryptPasswordEncoder. 4. Adicionar o filtro de JWT antes do filtro padrão do Spring Security. 5. Definir os endpoints públicos (como /auth ou /profiles para cadastro) e proteger os demais.
-
-# com.soasprint.project.security.TokenService.java | (NOVO ARQUIVO) Serviço para gerar e validar o JWT (usando a biblioteca JJWT).
-
-# com.soasprint.project.security.JwtAuthenticationFilter.java | (NOVO ARQUIVO) Filtro responsável por interceptar todas as requisições, extrair o token JWT do cabeçalho, validá-lo e autenticar o usuário no contexto do Spring Security.
-
-# com.soasprint.project.controller.AuthenticationController.java | (NOVO ARQUIVO) Criar um novo Controller para o endpoint de Login (/auth/login), que receberá credenciais, chamará o serviço de autenticação do Spring, e retornará o token JWT.
-
-# com.soasprint.project.model.User.java | (NOVO ARQUIVO/NOVA ENTIDADE) Criar a entidade User com campos como username, password (e-mail ou ID de login), implementando a interface UserDetails do Spring Security.
-
-# com.soasprint.project.service.AuthenticationService.java | (NOVO ARQUIVO) Service para carregar o usuário pelo username, implementando a interface UserDetailsService do Spring Security.
-
-# com.soasprint.project.service.ProfileService.java | 1. (SOLID/OCP): Extrair a interface: Renomear este arquivo para ProfileServiceImpl.java ou mover o código para uma classe de implementação. 2. (Interface/DIP): Criar a interface ProfileService.java (com os métodos de negócio) e fazer a classe de implementação implementar esta interface.
-
-# com.soasprint.project.repository.ProfileRepository.java | (OCP/DIP/Interface): Se ainda não for uma interface, garantir que este arquivo seja uma Interface que estende JpaRepository (ou equivalente).
-
-# com.soasprint.project.service.WalletService.java | 1. (SOLID/OCP): Extrair a interface: Renomear este arquivo para WalletServiceImpl.java ou mover o código para uma classe de implementação. 2. (Interface/DIP): Criar a interface WalletService.java e fazer a classe de implementação implementar esta interface.
-
-com.soasprint.project.controller.ProfileController.java | (DIP/Injeção): Injetar a dependência do serviço usando a Interface (ProfileService), e não a classe de implementação (ProfileServiceImpl), para aderir ao Princípio da Inversão de Dependência (DIP).
