@@ -11,7 +11,7 @@ public class EmailVO {
     @Column(name = "email", nullable = false)
     private String value;
 
-    protected EmailVO() {} // JPA
+    protected EmailVO() {} 
 
     public EmailVO(String value) { this.value = value; }
 

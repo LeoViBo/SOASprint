@@ -17,10 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Entidade de Autenticação. Armazena as credenciais e implementa UserDetails.
- * Usa o Email (String) como login.
- */
 @Entity
 @Table(name = "AUTENTICACAO_USUARIO")
 @Getter
@@ -33,25 +29,19 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Usaremos o email do Perfil como o identificador de login (username)
     @Column(unique = true, nullable = false)
     private String email; 
 
-    // Senha criptografada (BCrypt)
     @Column(nullable = false)
     private String password; 
     
-    // Construtor para facilitar o registro de novos usuários
     public Usuario(String email, String password) {
         this.email = email;
         this.password = password;
     }
-
-    // --- Métodos de UserDetails ---
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Define a Role padrão para todos os usuários
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
@@ -62,7 +52,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email; // O email é o identificador de login para o Spring Security
+        return this.email;
     }
 
     @Override

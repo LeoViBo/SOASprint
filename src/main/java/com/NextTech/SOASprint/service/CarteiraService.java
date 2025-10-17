@@ -8,6 +8,8 @@ import com.NextTech.SOASprint.dto.CarteiraDTOs.CarteiraUpdateDTO;
 import com.NextTech.SOASprint.repository.CarteiraRepository;
 import com.NextTech.SOASprint.repository.PerfilRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,21 +21,23 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class CarteiraService {
 
-    private final CarteiraRepository carteiraRepo;
-    private final PerfilRepository perfilRepo;
+    @Autowired
+    private CarteiraRepository carteiraRepo;
+    @Autowired
+    private PerfilRepository perfilRepo;
 
     @Transactional
     public Long criar(CarteiraCreateDTO dto) {
-        // garante que a carteira vai estar associada a um perfil válido
-        Perfil perfil = perfilRepo.findById(dto.perfilId())
+        // Corrigido para dto.idPerfil()
+        Perfil perfil = perfilRepo.findById(dto.idPerfil())
                 .orElseThrow(() -> new NoSuchElementException("Perfil não encontrado"));
 
         Carteira carteira = Carteira.builder()
                 .nome(dto.nome())
-                .valorTotal(dto.valorTotal()) // Now correctly handles BigDecimal
+                .valorTotal(dto.valorTotal())
                 .estrategia(dto.estrategia())
                 .ativos(dto.ativos())
-                .usuario(perfil)
+                .perfil(perfil)
                 .build();
 
         return carteiraRepo.save(carteira).getId();
@@ -48,7 +52,7 @@ public class CarteiraService {
                         c.getValorTotal(),
                         c.getEstrategia(),
                         c.getAtivos(),
-                        c.getUsuario().getId()
+                        c.getPerfil().getId()
                 ));
     }
 
@@ -62,7 +66,7 @@ public class CarteiraService {
                 c.getValorTotal(),
                 c.getEstrategia(),
                 c.getAtivos(),
-                c.getUsuario().getId()
+                c.getPerfil().getId()
         );
     }
 

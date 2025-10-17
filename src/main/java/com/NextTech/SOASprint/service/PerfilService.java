@@ -7,6 +7,7 @@ import com.NextTech.SOASprint.dto.PerfilDTOs.PerfilResponseDTO;
 import com.NextTech.SOASprint.dto.PerfilDTOs.PerfilUpdateDTO;
 import com.NextTech.SOASprint.repository.PerfilRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PerfilService {
 
-    private final PerfilRepository perfilRepo;
+    @Autowired
+    private PerfilRepository perfilRepo; 
 
     @Transactional
     public Long criar(PerfilCreateDTO dto) {
-        // Valida se o e-mail já existe
         if (perfilRepo.findByEmailValue(dto.email()).isPresent()) {
             throw new IllegalArgumentException("E-mail já cadastrado.");
         }

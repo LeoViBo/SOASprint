@@ -1,8 +1,7 @@
 package com.NextTech.SOASprint.dto;
 
 import jakarta.validation.constraints.NotBlank;
-
-// Usando Lombok para getters/setters/construtores, se você o tiver configurado
+import jakarta.validation.constraints.Email;
 import lombok.Getter; 
 import lombok.Setter; 
 
@@ -10,8 +9,9 @@ import lombok.Setter;
 @Setter
 public class LoginRequest {
     
-    @NotBlank // Garante que o campo não é nulo nem vazio
-    private String loginId; // O email ou username do usuário
+    @NotBlank 
+    @Email
+    private String email; 
     
     @NotBlank
     private String password;

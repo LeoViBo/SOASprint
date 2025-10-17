@@ -12,7 +12,6 @@ import lombok.Setter;
 @Setter
 public class ProfileRegistrationRequest {
 
-    // Credenciais para o Usuario
     @NotBlank
     @Email
     private String email; 
@@ -20,7 +19,6 @@ public class ProfileRegistrationRequest {
     @NotBlank
     private String password;
     
-    // Dados para o Perfil
     @NotBlank
     private String nome;
 

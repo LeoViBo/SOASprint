@@ -18,7 +18,6 @@ public class Carteira {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
-    // MUDANÇA AQUI: Renomeado para 'perfil' para refletir a entidade referenciada (Perfil)
     private Perfil perfil; 
 
     @Column(nullable = false, length = 100)
@@ -27,11 +26,9 @@ public class Carteira {
     @Column(nullable = false)
     private BigDecimal valorTotal;
 
-    // "Conservadora", "Moderada", "Arrojada".
     @Column(nullable = false, length = 50)
     private String estrategia;
 
-    // "Renda fixa", "Ações", "Fundos Imobiliários".
     @ElementCollection
     @CollectionTable(name = "carteira_ativos", joinColumns = @JoinColumn(name = "carteira_id"))
     @Column(name = "ativo")

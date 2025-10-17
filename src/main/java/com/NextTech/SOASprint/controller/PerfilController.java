@@ -2,6 +2,7 @@ package com.NextTech.SOASprint.controller;
 
 import java.net.URI;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/perfil")
 @RequiredArgsConstructor
 public class PerfilController {
-    private final PerfilService service;
+
+    @Autowired
+    private PerfilService service;
 
     @Operation(summary = "Cria um novo perfil de investimento")
     @ApiResponse(responseCode = "201", description = "Perfil criado")

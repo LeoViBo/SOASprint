@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,8 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class CarteiraController {
 
-    // DIP/SOLID: A injeção é feita na INTERFACE (CarteiraService)
-    private final CarteiraService service;
+    @Autowired
+    private CarteiraService service;
 
     @Operation(summary = "Cria uma carteira")
     @ApiResponse(responseCode = "201", description = "Carteira criada")
