@@ -3,7 +3,7 @@ package com.NextTech.SOASprint.controller;
 import com.NextTech.SOASprint.dto.CarteiraDTOs.CarteiraCreateDTO;
 import com.NextTech.SOASprint.dto.CarteiraDTOs.CarteiraResponseDTO;
 import com.NextTech.SOASprint.dto.CarteiraDTOs.CarteiraUpdateDTO;
-import com.NextTech.SOASprint.service.CarteiraService;
+import com.NextTech.SOASprint.service.CarteiraService; // <-- Garante a injeção da Interface
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class CarteiraController {
 
+    // DIP/SOLID: A injeção é feita na INTERFACE (CarteiraService)
     private final CarteiraService service;
 
     @Operation(summary = "Cria uma carteira")

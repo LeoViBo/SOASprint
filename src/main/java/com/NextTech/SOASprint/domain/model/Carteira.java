@@ -18,7 +18,8 @@ public class Carteira {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
-    private Perfil usuario;
+    // MUDANÇA AQUI: Renomeado para 'perfil' para refletir a entidade referenciada (Perfil)
+    private Perfil perfil; 
 
     @Column(nullable = false, length = 100)
     private String nome;
