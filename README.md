@@ -74,15 +74,16 @@ O modelo de dados é composto por três entidades principais:
 **3. Configure o Banco de Dados:**
 * Abra o arquivo `src/main/resources/application.properties`.
 * Atualize as propriedades `spring.datasource.url`, `spring.datasource.username` e `spring.datasource.password` com as credenciais do seu banco Oracle.
-
-    spring.datasource.url=jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl
-    spring.datasource.username=SEU_USUARIO
-    spring.datasource.password=SUA_SENHA
+```
+spring.datasource.url=jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl
+spring.datasource.username=SEU_USUARIO
+spring.datasource.password=SUA_SENHA
+```
 
 **4. Execute a Aplicação:**
 * Abra um terminal na raiz do projeto e execute o comando:
 
-    mvn spring-boot:run
+    `mvn spring-boot:run`
 
 * A aplicação será iniciada e estará disponível na porta `8080`.
 
@@ -99,7 +100,7 @@ A forma mais fácil de testar os endpoints é utilizando a interface do Swagger,
 **2. Crie um novo Perfil e Usuário:**
 * No Swagger, encontre o endpoint `POST /perfis`.
 * Clique em "Try it out" e preencha o "Request body" com os dados do novo usuário. A senha é obrigatória para criar as credenciais de login.
-
+```
     {
       "nome": "Gabriela Trevisan",
       "email": "gabi.trevisan@example.com",
@@ -109,18 +110,18 @@ A forma mais fácil de testar os endpoints é utilizando a interface do Swagger,
       "valorParaInvestimento": 5000.00,
       "horizonteDeTempo": 10
     }
-
+```
 * Clique em "Execute". Você deve receber uma resposta com status `201 Created`.
 
 **3. Autentique-se para obter um Token:**
 * Encontre o endpoint `POST /auth/login`.
 * Preencha o corpo da requisição com o **mesmo e-mail e senha** que você acabou de cadastrar:
-
+```
     {
       "email": "gabi.trevisan@example.com",
       "password": "senhaForte123"
     }
-
+```
 * Execute a requisição. A resposta será um JSON contendo o seu token de acesso (JWT). **Copie o valor do token.**
 
 **4. Autorize suas requisições:**
