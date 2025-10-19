@@ -8,10 +8,10 @@ O projeto implementa autenticação via **JWT (JSON Web Token)**, garantindo que
 ---
 
 **Integrantes do Grupo:**
-* Eduardo Araujo (RM99758)
-* Gabriela Trevisan (RM99500)
-* Leonardo Bonini (RM551716)
-* Rafael Franck (RM550875)
+* Eduardo Araujo (RM99758)  
+* Gabriela Trevisan (RM99500)  
+* Leonardo Bonini (RM551716)  
+* Rafael Franck (RM550875)  
 
 ---
 

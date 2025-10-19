@@ -32,8 +32,10 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/profiles").permitAll()
-                        // A permissão para o Swagger deve ser aqui
+                        .requestMatchers("/profiles/**").permitAll()
+                        .requestMatchers("/perfis/**").permitAll()
+                        .requestMatchers("/perfil/**").permitAll()
+                        .requestMatchers("/carteiras/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()
                 )
