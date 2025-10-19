@@ -68,9 +68,9 @@ O modelo de dados é simples e eficiente, composto por duas entidades principais
 4.  **Execução:**
     * Inicie a aplicação através da sua IDE ou por linha de comando:
     ```bash
-    ./mvnw spring-boot:run
+    mvn spring-boot:run
     ```
-    A aplicação estará disponível em `http://localhost:8080`.
+    A aplicação estará disponível em `http://localhost:8080/swagger-ui/index.html`.
 
 ---
 
