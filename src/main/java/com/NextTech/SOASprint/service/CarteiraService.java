@@ -7,9 +7,7 @@ import com.NextTech.SOASprint.dto.CarteiraDTOs.CarteiraResponseDTO;
 import com.NextTech.SOASprint.dto.CarteiraDTOs.CarteiraUpdateDTO;
 import com.NextTech.SOASprint.repository.CarteiraRepository;
 import com.NextTech.SOASprint.repository.PerfilRepository;
-import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,27 +16,30 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.NoSuchElementException;
 
 @Service
-@RequiredArgsConstructor
 public class CarteiraService {
 
-    @Autowired
-    private CarteiraRepository carteiraRepo;
-    @Autowired
-    private PerfilRepository perfilRepo;
+    private final CarteiraRepository carteiraRepo;
+    private final PerfilRepository perfilRepo;
+
+    // Injeção de dependência via construtor (preferida)
+    public CarteiraService(CarteiraRepository carteiraRepo, PerfilRepository perfilRepo) {
+        this.carteiraRepo = carteiraRepo;
+        this.perfilRepo = perfilRepo;
+    }
 
     @Transactional
     public Long criar(CarteiraCreateDTO dto) {
-        // Corrigido para dto.idPerfil()
-        Perfil perfil = perfilRepo.findById(dto.idPerfil())
+        // CORREÇÃO 1: Usando dto.perfilId() para acessar o campo do Record
+        Perfil perfil = perfilRepo.findById(dto.perfilId())
                 .orElseThrow(() -> new NoSuchElementException("Perfil não encontrado"));
 
-        Carteira carteira = Carteira.builder()
-                .nome(dto.nome())
-                .valorTotal(dto.valorTotal())
-                .estrategia(dto.estrategia())
-                .ativos(dto.ativos())
-                .perfil(perfil)
-                .build();
+        // CORREÇÃO 2: Substituindo o uso do Lombok @Builder por construtor e setters
+        Carteira carteira = new Carteira();
+        carteira.setNome(dto.nome());
+        carteira.setValorTotal(dto.valorTotal());
+        carteira.setEstrategia(dto.estrategia());
+        carteira.setAtivos(dto.ativos());
+        carteira.setPerfil(perfil);
 
         return carteiraRepo.save(carteira).getId();
     }

@@ -2,11 +2,15 @@ package com.NextTech.SOASprint.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Email;
-import lombok.Getter; 
-import lombok.Setter; 
+import lombok.AllArgsConstructor; 
+import lombok.Getter;
+import lombok.NoArgsConstructor; 
+import lombok.Setter;
 
-@Getter
+@Getter 
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginRequest {
     
     @NotBlank 

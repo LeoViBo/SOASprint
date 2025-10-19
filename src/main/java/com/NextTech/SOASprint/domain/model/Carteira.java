@@ -5,11 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter; 
+import lombok.NoArgsConstructor;
+import lombok.Setter; 
 
 @Entity
 @Table(name = "carteira")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@NoArgsConstructor @AllArgsConstructor @Builder
+@Getter @Setter 
 public class Carteira {
 
     @Id
@@ -33,5 +38,4 @@ public class Carteira {
     @CollectionTable(name = "carteira_ativos", joinColumns = @JoinColumn(name = "carteira_id"))
     @Column(name = "ativo")
     private List<String> ativos = new ArrayList<>();
-
 }

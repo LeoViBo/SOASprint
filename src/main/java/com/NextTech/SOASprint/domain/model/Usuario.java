@@ -6,23 +6,25 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor; 
+import lombok.Builder; 
+import lombok.Getter; 
+import lombok.NoArgsConstructor; 
+import lombok.Setter; 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "AUTENTICACAO_USUARIO")
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@Getter @Setter
+@NoArgsConstructor // Gera construtor sem argumentos
+@AllArgsConstructor // Gera construtor com todos os campos (incluindo id)
+@Builder
 public class Usuario implements UserDetails {
 
     @Id
@@ -35,6 +37,7 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private String password; 
     
+    // Construtor necessário para resolver o erro "no suitable constructor found for Usuario(String,String)"
     public Usuario(String email, String password) {
         this.email = email;
         this.password = password;
@@ -52,7 +55,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.email; 
     }
 
     @Override
@@ -66,4 +69,17 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isEnabled() { return true; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(id, usuario.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

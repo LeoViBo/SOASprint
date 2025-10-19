@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-// DTO para receber todos os dados de cadastro, incluindo as credenciais
 @Getter
 @Setter
 public class ProfileRegistrationRequest {

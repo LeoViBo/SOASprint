@@ -6,8 +6,7 @@ import com.NextTech.SOASprint.dto.PerfilDTOs.PerfilCreateDTO;
 import com.NextTech.SOASprint.dto.PerfilDTOs.PerfilResponseDTO;
 import com.NextTech.SOASprint.dto.PerfilDTOs.PerfilUpdateDTO;
 import com.NextTech.SOASprint.repository.PerfilRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,11 +16,14 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class PerfilService {
 
-    @Autowired
-    private PerfilRepository perfilRepo; 
+    private final PerfilRepository perfilRepo; 
+
+    // Injeção de dependência via construtor (melhor prática e consistência)
+    public PerfilService(PerfilRepository perfilRepo) {
+        this.perfilRepo = perfilRepo;
+    }
 
     @Transactional
     public Long criar(PerfilCreateDTO dto) {
@@ -29,14 +31,14 @@ public class PerfilService {
             throw new IllegalArgumentException("E-mail já cadastrado.");
         }
 
-        Perfil perfil = Perfil.builder()
-                .nome(dto.nome())
-                .email(new EmailVO(dto.email()))
-                .objetivoFinanceiro(dto.objetivoFinanceiro())
-                .toleranciaRisco(dto.toleranciaRisco())
-                .valorParaInvesimento(dto.valorParaInvestimento().doubleValue())
-                .horizonteDeTempo(dto.horizonteDeTempo())
-                .build();
+        // Correção para substituir Perfil.builder() por construtor padrão e setters
+        Perfil perfil = new Perfil();
+        perfil.setNome(dto.nome());
+        perfil.setEmail(new EmailVO(dto.email()));
+        perfil.setObjetivoFinanceiro(dto.objetivoFinanceiro());
+        perfil.setToleranciaRisco(dto.toleranciaRisco());
+        perfil.setValorParaInvesimento(dto.valorParaInvestimento().doubleValue());
+        perfil.setHorizonteDeTempo(dto.horizonteDeTempo());
 
         return perfilRepo.save(perfil).getId();
     }
@@ -76,6 +78,11 @@ public class PerfilService {
     public void atualizar(Long id, PerfilUpdateDTO dto) {
         Perfil p = perfilRepo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Perfil não encontrado"));
+        
+        // Verifica se o email está sendo alterado e se o novo email já existe
+        if (!p.getEmail().getValue().equals(dto.email()) && perfilRepo.findByEmailValue(dto.email()).isPresent()) {
+            throw new IllegalArgumentException("O novo e-mail já está em uso por outro perfil.");
+        }
 
         p.setNome(dto.nome());
         p.setEmail(new EmailVO(dto.email()));

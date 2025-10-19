@@ -15,13 +15,14 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Getter; 
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Setter; 
 
 @Entity
 @Table(name="usuario")
-@Setter @Getter @NoArgsConstructor @AllArgsConstructor @Builder
+@NoArgsConstructor @AllArgsConstructor @Builder
+@Getter @Setter
 public class Perfil {
 
     @Id 
@@ -46,6 +47,6 @@ public class Perfil {
     @Column(nullable = false)
     private int horizonteDeTempo; 
 
-    @OneToMany(mappedBy= "usuario")
+    @OneToMany(mappedBy= "perfil") 
     private List<Carteira> carteiras = new ArrayList<>();
 }
