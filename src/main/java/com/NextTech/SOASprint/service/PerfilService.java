@@ -1,14 +1,17 @@
 package com.NextTech.SOASprint.service;
 
 import com.NextTech.SOASprint.domain.model.Perfil;
+import com.NextTech.SOASprint.domain.model.Usuario; // <-- Importar a Entidade Usuario
 import com.NextTech.SOASprint.domain.model.vo.EmailVO;
 import com.NextTech.SOASprint.dto.PerfilDTOs.PerfilCreateDTO;
 import com.NextTech.SOASprint.dto.PerfilDTOs.PerfilResponseDTO;
 import com.NextTech.SOASprint.dto.PerfilDTOs.PerfilUpdateDTO;
 import com.NextTech.SOASprint.repository.PerfilRepository;
+import com.NextTech.SOASprint.repository.UsuarioRepository; // <-- Importar o Repositório de Usuario
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder; // <-- Importar o PasswordEncoder
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +21,14 @@ import java.util.stream.Collectors;
 @Service
 public class PerfilService {
 
-    private final PerfilRepository perfilRepo; 
+    private final PerfilRepository perfilRepo;
+    private final UsuarioRepository usuarioRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    // Injeção de dependência via construtor (melhor prática e consistência)
-    public PerfilService(PerfilRepository perfilRepo) {
+    public PerfilService(PerfilRepository perfilRepo, UsuarioRepository usuarioRepo, PasswordEncoder passwordEncoder) {
         this.perfilRepo = perfilRepo;
+        this.usuarioRepo = usuarioRepo; 
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -31,10 +37,16 @@ public class PerfilService {
             throw new IllegalArgumentException("E-mail já cadastrado.");
         }
 
-        // Correção para substituir Perfil.builder() por construtor padrão e setters
+        String senhaHash = passwordEncoder.encode(dto.password()); 
+
+        Usuario novoUsuario = new Usuario(dto.email(), senhaHash); 
+        
+        usuarioRepo.save(novoUsuario); 
+
         Perfil perfil = new Perfil();
         perfil.setNome(dto.nome());
         perfil.setEmail(new EmailVO(dto.email()));
+
         perfil.setObjetivoFinanceiro(dto.objetivoFinanceiro());
         perfil.setToleranciaRisco(dto.toleranciaRisco());
         perfil.setValorParaInvesimento(dto.valorParaInvestimento().doubleValue());

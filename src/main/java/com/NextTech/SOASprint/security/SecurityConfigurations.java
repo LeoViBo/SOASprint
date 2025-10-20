@@ -1,6 +1,5 @@
 package com.NextTech.SOASprint.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,8 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfigurations {
 
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfigurations(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
@@ -32,10 +30,11 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers("/profiles/**").permitAll()
-                        .requestMatchers("/perfis/**").permitAll()
-                        .requestMatchers("/perfil/**").permitAll()
-                        .requestMatchers("/carteiras/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/perfis").permitAll()
+                        .requestMatchers("/profiles/**").authenticated()
+                        .requestMatchers("/perfis/**").authenticated()
+                        .requestMatchers("/perfil/**").authenticated()
+                        .requestMatchers("/carteiras/**").authenticated()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()
                 )

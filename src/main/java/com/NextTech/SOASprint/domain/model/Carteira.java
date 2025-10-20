@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter; 
 import lombok.NoArgsConstructor;
-import lombok.Setter; 
+import lombok.Setter;
 
 @Entity
 @Table(name = "carteira")
@@ -34,6 +34,7 @@ public class Carteira {
     @Column(nullable = false, length = 50)
     private String estrategia;
 
+    @Builder.Default
     @ElementCollection
     @CollectionTable(name = "carteira_ativos", joinColumns = @JoinColumn(name = "carteira_id"))
     @Column(name = "ativo")

@@ -47,6 +47,7 @@ public class Perfil {
     @Column(nullable = false)
     private int horizonteDeTempo; 
 
+    @Builder.Default
     @OneToMany(mappedBy= "perfil") 
     private List<Carteira> carteiras = new ArrayList<>();
 }

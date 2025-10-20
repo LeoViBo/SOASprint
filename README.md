@@ -38,25 +38,27 @@ O projeto é estruturado em camadas para garantir a separação de responsabilid
 * **DTO (Data Transfer Object):** Objetos utilizados para transferir dados entre as camadas, garantindo que a API exponha apenas as informações necessárias.
 * **Security:** Camada responsável pela configuração de autenticação e autorização via JWT.
 
-![Diagrama de Arquitetura](Diagrama.png)
-
 #### Modelo de Entidades
-O modelo de dados é composto por três entidades principais:
+O modelo de dados é composto por três entidades principais com as seguintes responsabilidades e relacionamentos:
 
-* **`USUARIO`**: Armazena as credenciais para autenticação.
-    * `ID` (PK): Identificador único.
-    * `EMAIL` (unique): E-mail usado para login.
-    * `PASSWORD`: Senha criptografada.
-* **`PERFIL`**: Armazena as informações do perfil do investidor.
-    * `ID` (PK): Identificador único.
-    * `NOME`: Nome do usuário.
-    * `EMAIL`: E-mail de contato.
-    * `OBJETIVO_FINANCEIRO`, `TOLERANCIA_RISCO`, etc.
-* **`CARTEIRA`**: Armazena os detalhes da carteira de investimentos, vinculada a um `Perfil`.
-    * `ID` (PK): Identificador único.
-    * `PERFIL_ID` (FK): Chave estrangeira que referencia a tabela `PERFIL`.
-    * `NOME`, `VALOR_TOTAL`, `ESTRATEGIA`, `ATIVOS`.
+* **`USUARIO`** (Entidade de Segurança/Login)
+    * `ID` (PK): Identificador único.
+    * `EMAIL` (unique): E-mail usado **exclusivamente para login/autenticação**.
+    * `PASSWORD`: Senha **criptografada (BCrypt)**.
+    * `RELACIONAMENTO:` Possui uma relação **Um-para-Um (1:1)** com a entidade `PERFIL`.
 
+* **`PERFIL`** (Entidade de Dados do Investidor)
+    * `ID` (PK): Identificador único.
+    * `NOME`: Nome do usuário.
+    * `EMAIL`: E-mail de contato (Duplicado no `USUARIO` para consultas, mas a unicidade deve ser garantida no serviço).
+    * `OBJETIVO_FINANCEIRO`, `TOLERANCIA_RISCO`, etc.
+    * `RELACIONAMENTO:`É o lado 'Um' da relação **Um-para-Muitos (1:N)** com a entidade `CARTEIRA`.
+
+* **`CARTEIRA`** (Entidade de Detalhes de Investimento)
+    * `ID` (PK): Identificador único.
+    * `PERFIL_ID` (FK): Chave estrangeira que referencia a tabela `PERFIL`.
+    * `NOME`, `VALOR_TOTAL`, `ESTRATEGIA`, `ATIVOS`.
+    * `RELACIONAMENTO:` Mapeada como o lado 'Muitos' na relação com `PERFIL`.
 ---
 
 ## ⚙️ Configuração e Execução
